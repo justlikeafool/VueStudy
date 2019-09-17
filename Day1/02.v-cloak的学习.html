@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <!-- 使用v-cloak可以解决 插值表达式闪烁问题-->
+        <p v-cloak>{{msg}}</p>
+
+        <!-- 默认v-text不用实现闪烁问题-->
+        <h4 v-text="msg"></h4>
+
+        <!--
+            注：V-text会覆盖元素中原有的数据，但是V-cloak不会覆盖原有的数据，只会替换自己本身的占位符
+        -->
+        <div>{{msg2}}</div>
+        <div v-text="msg2"></div>
+        <div v-html="msg2">11123</div>
+        <!--
+            注：v-cloak和v-text都不会将数据中的html代码转换为元素，v-html可以将数据中的html转换
+            为元素，只是会清空利用标签元素中原有的数据。
+        -->
+
+        <!-- 
+            v-bind 是Vue中用于绑定元素属性的标签 ,其会把后面引号中的数据当作js表达式来解析
+            注意：v-bind指令可以简写为（：+属性）
+        -->
+        <input type="button" value="按钮" :title="myTitle + '123'" @click="show"> 
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '123',
+                msg2: '<h1>我是一个大大的H1</h1>',
+                myTitle: 'this is mytitle'
+            },
+            methods:{
+                show(){
+                    alert(this.myTitle)
+                }
+            } 
+        })
+    </script>
+</body>
+</html>

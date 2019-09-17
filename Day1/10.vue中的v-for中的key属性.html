@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <label for="">id</label>
+            <input type="text" v-model="nId"/>
+            <label>Value</label>
+            <input type="text" v-model="nVal"/>
+            <input type="button" value="添加" @click="push"/>
+        </div>
+        <!-- v-for循环的时候，key属性只能使用number或者string属性，同时必须通过v-bind绑定到元素中 -->
+        <div v-for="item in list" :key="item.id">
+            <input type="checkbox"/>
+            {{item.id}}------{{item.value}}
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:　'#app',
+            data: {
+                nId: '',
+                nVal: '',
+                list: [
+                    {id:1,value:1},
+                    {id:2,value:2},
+                    {id:3,value:3},
+                    {id:4,value:4},
+                ]
+            },
+            methods: {
+                push(){
+                    var pList = {id: this.nId,value: this.nVal}
+                    //头部插入 unshift，尾部插入 push
+                    this.list.unshift({id: this.nId,value: this.nVal})
+                }
+            } 
+        })
+    </script>
+</body>
+</html>

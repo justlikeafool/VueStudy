@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <style>
+        .inner {
+            height: 165px;
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <div class="inner" @click="div1Handler">
+            <!-- .stop：等同于JavaScript中的event.stopPropagation()，防止事件冒泡 -->
+            <input type="button" value="戳他" @click.stop="btnHandler"/>
+        </div>
+
+        <!-- .prevent：等同于JavaScript中的event.preventDefault()，防止执行预设的行为（如果事件可取消，则取消该事件，而不停止事件的进一步传播）-->
+        <a href="http://baidu.com" @click.prevent>前往百度</a>
+
+        <!-- .once: 设置事件只能触发一次 -->
+        <div @click.once="clickOnce">只能点击一次</div>
+
+        <!-- .self: 将事件绑定到自身，只有自身才能触发，通常用于避免冒泡事件的影响-->
+        <div class="inner" @click.self="div2Handler">
+            <input type="button" value="戳他" @click="btnHandler"/> 
+        </div>
+
+        <br>
+        <!-- . capture: 捕获冒泡，即有冒泡发生时，有该修饰符的dom元素会先执行，
+            如果有多个，从外到内依次执行，然后再按自然顺序执行触发的事件。 -->
+        <div class="inner" @click.capture="div1Handler">
+            <div @click.capture="div2Handler">
+                <input type="button" value="戳他" @click="btnHandler"/>
+            </div>
+            <input type="button" value="戳他第二次" @click="btnHandler"/> 
+        </div>
+
+        <!--
+            注意：.self和.stop都可以阻止冒泡事件的发生，但self只能阻止自身冒泡事件的发生，并不能阻止真正的冒泡事件发生
+        -->
+    </div>
+
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+                div1Handler(){
+                    console.log("点击了div")
+                },
+                div2Handler(){
+                    console.log("只有点击我才可以触发事件")
+                },
+                btnHandler(){
+                    console.log("点击了button")
+                },
+                clickOnce(){
+                    console.log("只能点一次哦")
+                }
+            }
+        })    
+    </script>
+</body>
+</html>

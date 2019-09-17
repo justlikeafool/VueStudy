@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <h1 :style="{color : 'red'}">通过直接绑定style，这是一个h1</h1>
+
+        <h2 :style="styleObj">通过将style绑定到data中，这是一个h2</h2>
+
+        <!-- 注意此时的引号内，为数组[] -->
+        <h2 :style="[styleObj3,styleObj2]">绑定多个样式对象到data中，这是一个h2</h2>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:　'#app',
+            data: {
+                falg :　true,
+                classObj : {red : true,thin: true,active : false},
+                styleObj : {color :　'red', thin :　'200'},
+                styleObj2 : {fontStyle : 'italic'},
+                styleObj3 : {color : 'green'}
+            },
+            methods: {
+
+            } 
+        })
+    </script>
+</body>
+</html>

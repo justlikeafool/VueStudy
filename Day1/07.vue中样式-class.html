@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .thin {
+            font-style: 200;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 第一种使用方式，直接传递一个数组，注意这里的class需要使用 v-bind 做数据绑定 -->
+        <h1 :class="['red','thin']">这是一个多样化的h1</h1>
+
+        <br>
+        <!-- 数组中使用三元表达式 -->
+        <h2 :class="['red','thin', falg?'active':'']">这是一个多样化的h2</h2>
+
+        <br>
+        <!-- 数组中使用对象代替三元表达式 -->
+        <h3 :class="['red','thin', {'active':falg}]">这是一个多样化的h3</h3>
+
+        <br>
+        <!-- 使用对象绑定元素 -->
+        <h4 :class="classObj">这是一个多样化的h4</h4>
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el:　'#app',
+            data: {
+                falg :　true,
+                classObj : {red : true,thin: true,active : false}
+            },
+            methods: {
+
+            } 
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-for="item in list">{{item}}</p>
+
+        <br>
+        <!-- 索引添加 -->
+        <p v-for="(item,i) in list">{{i}}------{{item}}</p>
+        <br>
+        <!-- 循环数组 -->
+        <div>
+            <p v-for="item in list1">{{item.id}}-----{{item.value}}</p>
+        </div>
+
+        <br>
+        <p>循环对象</p>
+        <!-- 循环对象 -->
+        <div>
+            <p v-for="(val,key) in list2">{{val}}-----{{key}}</p>
+        </div>
+
+        <br>
+        <p>遍历数字</p>
+        <div>
+            <p v-for="count in 10">这是第{{count}}次循环</p>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:　'#app',
+            data: {
+                list: [1,2,3,4],
+                list1: [
+                    {id: 1,value: 'zar1'},
+                    {id: 2,value: 'zar2'},
+                    {id: 3,value: 'zar3'},
+                    {id: 4,value: 'zar4'},
+                ],
+                list2: {
+                    id: 1,
+                    name: '张三'
+                }
+            },
+            methods: {
+
+            } 
+        })
+    </script>
+</body>
+</html>
