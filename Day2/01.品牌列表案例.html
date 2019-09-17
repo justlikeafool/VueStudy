@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.css">
+</head>
+<body>
+    <div id="app">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌列表案例</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>ID:
+                    <input type="text" class="form-control" v-model="nID">
+                </label>
+                <label>Name:
+                    <input type="text" class="form-control" v-model="nName">
+                </label>
+
+                <input type="button" value="添加" class="btn btn-primary" @click="add">
+                <label>搜索:
+                    <input type="text" class="form-control" v-model="nKeywords">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td><a @click.prevent="drop(item.id)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                nID: '',
+                nName: '',
+                nKeywords: '',
+                list: [
+                    {id:1,name:'奔驰'},
+                    {id:2,name:'宝马'}
+                ]
+            },
+            methods: {
+                add(){
+                    this.list.push({id:this.nID,name:this.nName})
+                    this.nID = this.nName = ''
+                },
+                drop(id){
+                    //索引查找 findIndex
+                    var index = this.list.findIndex(item => {
+                        if(item.id == id){
+                            return true;
+                        }
+                    })
+
+                    //splice(index,howmany) 方法向/从数组中添加/删除项目，然后返回被删除的项目
+                    //index : 整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。
+                    //howmany :　要删除的项目数量。如果设置为 0，则不会删除项目．
+                    this.list.splice(index,1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>
