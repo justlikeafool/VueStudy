@@ -79,13 +79,23 @@
                 },
                 search(nKeywords){
                     //根据关键字进行搜索
-                    var newList = []
-                    this.list.forEach(item => {
-                        if(item.name.indexOf(nKeywords) != -1){
-                            //indexOf 返回某个指定的字符串值在字符串中首次出现的位置
-                            newList.push(item)
+                    /*
+                        var newList = []
+                        this.list.forEach(item => {
+                            if(item.name.indexOf(nKeywords) != -1){
+                                //indexOf 返回某个指定的字符串值在字符串中首次出现的位置
+                                newList.push(item)
+                            }
+                        });
+                    */
+                    //注意： foreach some filter findIndex 是数组的新方法,都会对数组进行遍历
+                    
+                    var newList = this.list.filter(item => {
+                        if(item.name.includes(nKeywords)){
+                            return item
                         }
-                    });
+                    })
+                     
                     return newList
                 }
             }
