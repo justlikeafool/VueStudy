@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg | msgOpe('邪恶')}}</p>
+    </div>
+
+    <script> 
+        //注：过滤器可以被多次调用，如{{msg | 过滤器1 | 过滤器2 | ....}},其会按照写的顺序依次进行过滤
+        Vue.filter('msgOpe', function(msg,arg){
+            return msg.replace(/单纯/,arg);
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '曾经我也是一个很单纯的男人'
+            },
+        })
+    </script>
+</body>
+</html>

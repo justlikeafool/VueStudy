@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../lib/vue.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.css">
+</head>
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌列表案例</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>ID:
+                    <input type="text" class="form-control" v-model="nID">
+                </label>
+                <label>Name:
+                    <input type="text" class="form-control" v-model="nName">
+                </label>
+
+                <input type="button" value="添加" class="btn btn-primary" @click="add">
+                <label>搜索:
+                    <input type="text" class="form-control" v-model="nKeywords">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 之前的数据都是通过list中循环出来的，现在通过方法返回一个新数组再遍历 -->
+                <tr v-for="item in search(nKeywords)" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.date | dateFormat}}</td>
+                    <td><a @click.prevent="drop(item.id)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="app2">
+        <h1>{{ dt | dateFormat}}</h1>
+    </div>
+
+    <script>
+        //全局过滤器，所有的vue实例都能调用
+        //过滤器调用的方式： {{name | nameope}}
+        //过滤器的定义语法,其中第一个参数已经被定义死了，只能是过滤器管道符传过的值,如下面的data
+        //过滤器调用采用就近原则，如果全局过滤器和私有过滤器名称一致，则优先调用私有过滤器
+        Vue.filter('dateFormat',function(datestr){
+            //根据给定的时间字符串得到特定的时间
+            var dt = new Date(datestr)
+            var y = dt.getFullYear();
+            var m = dt.getMonth() + 1;
+            var d = dt.getDate();
+            return `${y}-${m}-${d}`
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                nID: '',
+                nName: '',
+                nKeywords: '',
+                list: [
+                    {id:1,name:'奔驰',date: new Date()},
+                    {id:2,name:'宝马',date: new Date()}
+                ]
+            },
+            methods: {
+                add(){
+                    this.list.push({id:this.nID,name:this.nName})
+                    this.nID = this.nName = ''
+                },
+                drop(id){
+                    //索引查找 findIndex
+                    var index = this.list.findIndex(item => {
+                        if(item.id == id){
+                            return true;
+                        }
+                    })
+
+                    //splice(index,howmany) 方法向/从数组中添加/删除项目，然后返回被删除的项目
+                    //index : 整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。
+                    //howmany :　要删除的项目数量。如果设置为 0，则不会删除项目．
+                    this.list.splice(index,1)
+                },
+                search(nKeywords){
+                    //根据关键字进行搜索
+                    /*
+                        var newList = []
+                        this.list.forEach(item => {
+                            if(item.name.indexOf(nKeywords) != -1){
+                                //indexOf 返回某个指定的字符串值在字符串中首次出现的位置
+                                newList.push(item)
+                            }
+                        });
+                    */
+                    //注意： foreach some filter findIndex 是数组的新方法,都会对数组进行遍历
+                    
+                    var newList = this.list.filter(item => {
+                        if(item.name.includes(nKeywords)){
+                            return item
+                        }
+                    })
+                     
+                    return newList
+                }
+            }
+        })
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                dt:　new Date()
+            },
+            //私有过滤器定义
+            filters: {
+                dateFormat(datestr){
+                    var dt = new Date(datestr)
+                    var y = dt.getFullYear();
+                    var m = dt.getMonth() + 1;
+                    var d = dt.getDate();
+                    return `${y}-${m}-${d}`+"==========="
+                }
+            }
+        })
+    </script>
+</body>
+</html>
