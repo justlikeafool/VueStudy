@@ -19,7 +19,7 @@
                     <input type="text" class="form-control" v-model="nID">
                 </label>
                 <label>Name:
-                    <input type="text" class="form-control" v-model="nName">
+                    <input type="text" class="form-control" v-model="nName" @keyup.f2="add">
                 </label>
 
                 <input type="button" value="添加" class="btn btn-primary" @click="add">
@@ -68,11 +68,17 @@
             return `${y}-${m}-${d}`
         })
 
+        //自定义全局按键修饰符，格式：Vue.config.keycode.自定义名称 = 键盘码值
+        //内置Vue按键修饰符包括： enter，tab，delete，esc,space,up,down,left,right
+        Vue.config.keyCodes.f2 = 113;
+
+
         var vm = new Vue({
             el: '#app',
             data: {
                 nID: '',
                 nName: '',
+                nDate: new Date(),
                 nKeywords: '',
                 list: [
                     {id:1,name:'奔驰',date: new Date()},
@@ -81,7 +87,7 @@
             },
             methods: {
                 add(){
-                    this.list.push({id:this.nID,name:this.nName})
+                    this.list.push({id:this.nID,name:this.nName,date:this.nDate})
                     this.nID = this.nName = ''
                 },
                 drop(id){
