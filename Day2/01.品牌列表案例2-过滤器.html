@@ -24,7 +24,7 @@
 
                 <input type="button" value="添加" class="btn btn-primary" @click="add">
                 <label>搜索:
-                    <input type="text" class="form-control" v-model="nKeywords">
+                    <input type="text" class="form-control" v-model="nKeywords" id="placeholder" v-focus>
                 </label>
             </div>
         </div>
@@ -51,7 +51,7 @@
     </div>
 
     <div id="app2">
-        <h1>{{ dt | dateFormat}}</h1>
+        <h1 v-color="'red'">{{ dt | dateFormat}}</h1>
     </div>
 
     <script>
@@ -71,6 +71,21 @@
         //自定义全局按键修饰符，格式：Vue.config.keycode.自定义名称 = 键盘码值
         //内置Vue按键修饰符包括： enter，tab，delete，esc,space,up,down,left,right
         Vue.config.keyCodes.f2 = 113;
+
+        //自定义指令:使用Vue.directive（）定义全局的指令，其中参数1：指令的名称，其定义时，指令前不需要加v-前缀，但在调用时需要
+        //                                                参数2：对象，这个对象上，有一些指令的相关函数
+        Vue.directive('focus',{
+            bind: function(el){ //每当指令绑定到元素上的时候，执行这个函数，只执行一次
+                //在每个函数中，第一个参数为el，表示绑定了指令的元素，这个el参数是一个原生的js对象
+                el.placeholder = "请输入您要搜索的内容"
+            },
+            inserted: function(el){ //inserted，表示元素插入到DOM中时，会执行函数，只执行一次
+                el.focus();
+            },
+            updated: function(){ //当VNode更新时，会执行函数，可以执行多次
+
+            }
+        })
 
 
         var vm = new Vue({
@@ -140,6 +155,13 @@
                     var m = dt.getMonth() + 1;
                     var d = dt.getDate();
                     return `${y}-${m}-${d}`+"==========="
+                }
+            },
+            directives: {
+                color: {
+                    bind : function(el,data){
+                        el.style.color = data.value;
+                    }
                 }
             }
         })

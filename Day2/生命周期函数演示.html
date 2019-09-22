@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../lib/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <h3>{{msg}}</h3>
+        <input type="button" value="修改msg" @click="msg = 'No'">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app'
+            ,data: {
+                msg : "生命周期函数检测"
+            }
+            ,methods: {
+                show(){
+                    console.log(this.msg);
+                }
+            }
+            //生命周期函数
+            ,beforeCreate(){
+                //生命周期函数，实例在完全被创建之前，会执行函数
+                console.log(this.msg)
+                console.log(this.show())
+                //注意：这时的data和methods中的数据并没有被初始化
+            }
+            ,created(){
+                //生命周期函数，初始化实例中的数据和函数
+                console.log(this.msg)
+                console.log(this.show())
+                //注意：这时的data和methods中的数据已经被初始化
+            }
+            ,beforeMount(){
+                //生命周期函数，表示模版已经在内存中编译完成，但是尚未被渲染到页面中；
+                console.log(document.getElementsByTagName('h3')[0].innerText);
+            }
+            ,mounted(){
+                //生命周期函数，表示模版已经挂载到页面中
+                console.log(document.getElementsByTagName('h3')[0].innerText);
+                //注意mounted是实例创建生命周期的最后一个函数，表示实例已经被完全创建好
+            }
+            //组件运行阶段
+            ,beforeUpdate(){
+                //指界面还没有被更新，但数据已经更新
+                console.log('页面中的msg内容是：'+document.getElementsByTagName('h3')[0].innerText);
+                console.log('data中的msg内容是:'+this.msg)
+            }
+            ,updated(){
+                //指界面已经被更新
+                console.log('页面中的msg内容是：'+document.getElementsByTagName('h3')[0].innerText);
+                console.log('data中的msg内容是:'+this.msg)
+            }
+        })
+        
+    </script>
+</body>
+</html>
