@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../lib/vue.js'></script>
+    <script src='https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js'></script>
+    <link rel="stylesheet" href="../lib/bootstrap.css">
+</head>
+<body>
+    <div id= 'app'>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌列表案例</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>Name:
+                    <input type="text" class="form-control" v-model="nName">
+                </label>
+
+                <input type="button" value="添加" class="btn btn-primary" >
+                <label>搜索:
+                    <input type="text" class="form-control" v-model="nKeywords">
+                </label>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>UserName</th>
+                    <th>Phone</th>
+                    <th>email</th>
+                    <th>Websit</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 之前的数据都是通过list中循环出来的，现在通过方法返回一个新数组再遍历 -->
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.username}}</td>
+                    <td>{{item.phone | phoneformat}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.website}}</td>
+                    <td><a>删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app'
+            ,data: {
+                nName: '',
+                nKeywords: '',
+                list: {}
+            }
+            ,methods: {
+                getList(){
+                    this.$http.get('http://jsonplaceholder.typicode.com/users').then(result=>{
+                        console.log(result)
+                        if(result.status === 200) {
+                            this.list = result.body
+                        } else {
+                            alert("请求失败")
+                        }
+                    },reserror=>{
+                        console.log(reserror)
+                    })
+                }
+            }
+            ,filters: {
+                phoneformat(data){
+                    var ndata = data.replace(/-/g,'')
+                    var first = ndata.substring(0,3);
+                    console.log(first)
+                    return ndata
+                }
+            }
+            ,created(){
+                this.getList()
+            }
+        })
+    </script>
+</body>
+</html>
