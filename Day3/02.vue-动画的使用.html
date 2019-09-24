@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../lib/vue.js'></script>
+    <script src='https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js'></script>
+    <style>
+        .v-enter,
+        .v-leave-to{
+            /* 开始和终了的透明度 */
+            opacity: 0;
+            /* 从哪个方向进入，其初始和终结状态 */
+            transform: translateX(150px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            /* 动画切入
+                transiton: 
+                参数1：规定应用过渡效果的CSS属性名称，默认为all
+                参数2：规定完成过渡效果需要多少时间
+                参数3：规定过渡效果的速度曲线，默认为ease
+             */
+            transition: all 5s ease;
+        }
+
+        /* 自定义v-前缀 */
+        .my-enter,
+        .my-leave-to{
+            opacity: 0;
+            transform: translateY(150px);
+        }
+
+        .my-enter-active,
+        .my-leave-active{
+            transition: all 5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id= 'app'>
+        <input type="button" value="切换按钮状态" @click="flag = !flag">
+        <transition>
+            <h3 v-if="flag">这是一个h3界面</h3>
+        </transition>
+        <hr>
+        
+        <!-- 自定义前缀,transition中添加name属性，样式中则将v改为name的值 -->
+        <input type="button" value="切换按钮状态" @click="flag2 = !flag2">
+        <transition name="my">
+            <h6 v-if="flag2">这是一个h6界面</h6>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app'
+            ,data: {
+                flag: false,
+                flag2 : false
+            }
+            ,methods: {
+            }
+        })
+    </script>
+</body>
+</html>
