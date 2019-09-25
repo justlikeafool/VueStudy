@@ -9,15 +9,16 @@
     <script src='https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js'></script>
     <link rel="stylesheet" href="../lib/animate.css">
     <style>
-        .v-enter,
+        /* 实现半场动画时不要 */
+        /* .v-enter,
         .v-leave-to{
             /* 开始和终了的透明度 */
-            opacity: 0;
+            /* opacity: 0;
             /* 从哪个方向进入，其初始和终结状态 */
-            transform: translateX(150px);
-        }
+            /* transform: translateX(150px);
+        } */ 
 
-        .v-enter-active,
+        /* .v-enter-active,
         .v-leave-active{
             /* 动画切入
                 transiton: 
@@ -25,8 +26,8 @@
                 参数2：规定完成过渡效果需要多少时间
                 参数3：规定过渡效果的速度曲线，默认为ease
              */
-            transition: all 5s ease;
-        }
+            /* transition: all 5s ease;
+        } */ 
 
         /* 自定义v-前缀 */
         .my-enter,
@@ -39,10 +40,19 @@
         .my-leave-active{
             transition: all 5s ease;
         }
+
+        /* 小球 */
+        .bar{
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50px
+        }
     </style>
 </head>
 <body>
     <div id= 'app'>
+        
         <input type="button" value="切换按钮状态" @click="flag = !flag">
         <transition>
             <h3 v-if="flag">这是一个h3界面</h3>
@@ -63,6 +73,13 @@
         <transition enter-active-class='animated bounceIn' leave-active-class='animated bounceOut'>
             <h4 v-if="flag3">这是一个h4界面</h4>
         </transition>
+        
+        <hr>
+        <!-- 钩子函数实现半场动画 -->
+        <input type="button" value="钩子函数实现半场动画" @click="flag4 = !flag4">
+        <transition v-on:before-enter="bEnter" v-on:enter="enter" v-on:after-enter="aEnter">
+            <div class="bar" v-show="flag4"></div>
+        </transition>
     </div>
     <script>
         var vm = new Vue({
@@ -70,10 +87,23 @@
             ,data: {
                 flag: false,
                 flag2 : false,
-                flag3 : false
+                flag3 : false,
+                flag4 : false
             }
             ,methods: {
-                
+                bEnter(el){
+                    el.style.transform = "translate(0,0)"
+                },
+                enter(el,done){
+                    el.offsetTop;
+                    el.style.transform = "translate(200px,450px)";
+                    el.style.transition = "all 5s ease";
+
+                    done()
+                },
+                aEnter(el){
+                    this.flag4 = !this.flag4
+                }
             }
         })
     </script>
